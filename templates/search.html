@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>推播客户端bug收集平台</title>
+    {% module Template("header.html") %}
+</head>
+<body>
+    {% module Template("navbar.html") %}
+    
+    <div class="container">
+            <div class="row text-center pull-left">
+                    <div class="col-md-3">
+                        <div class="bs-sidebar hidden-print affix" role="complementary">
+                            <div class="input-group">
+                            <span class="input-group-addon">URL</span>
+                            <input type="text" class="form-control" placeholder="URL">
+                            </div>
+                        </div>
+
+                        <div class="btn-group">
+                          <ul class="dropdown-menu" role="menu">
+                            <li>get</li>
+                            <li>post</li>
+                            <li>put</li>
+                            <li>delete</li>
+                          </ul>
+
+                        </div>
+                        
+                    </div>
+
+                    <div class="col-md-9" role="main">
+                    
+                    </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+var start = "{{start}}";
+var end = "{{end}}";
+
+
+$(".datetime_start").datetimepicker({
+    format: "yyyy-mm-dd",
+    autoclose: true,
+    minView:2,
+    todayBtn: true,
+});
+
+$(".datetime_end").datetimepicker({
+    format: "yyyy-mm-dd",
+    minView:2,
+    autoclose: true,
+    todayBtn: true,
+});
+
+
+if ( start!="" || end!=""){
+  $(".datetime_start").val(start);
+  $(".datetime_end").val(end);
+}
+
+
+
+
+});
+
+</script>

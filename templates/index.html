@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>服务端测试工具</title>
+    {% module Template("header.html") %}
+</head>
+<body>
+<a class="sr-only" href="#content">Skip to main content</a>
+    {% module Template("navbar.html") %}
+<!--     <div id="content" class="bs-header">
+      <div class="container">
+        <h1>API测试</h1>
+        <p>API测试系统</p>
+      </div>
+    </div>
+ -->
+<div class="container bs-docs-container">
+        <div class="row">
+            <div class="col-md-4">
+                <br />
+              <div class="form-group">
+                    <label for="InputURL">URL：</label>
+                    <input type="text" class="form-control input_url" placeholder="URL" value="http://">
+              </div>
+                
+                <div class="form-group">
+                  <label for="InputMethod">获取方式：</label>
+                  <label><input type="radio" name="request_method" value="get" checked>GET</label>
+                  <label><input type="radio" name="request_method" value="post">POST</label>
+                  <label><input type="radio" name="request_method" value="put">PUT</label>
+                  <label><input type="radio" name="request_method" value="delete">DELETE</label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="InputURL">header：</label>
+                    <div class="header_set">
+                        <dd class="input_header">
+                            <input type="text" class="header_key" name="key" placeholder="key">：
+                            <input type="text" class="header_val" name="val" placeholder="val">
+                            <button type="button" class="btn btn-link glyphicon glyphicon-remove header_remove"></button>
+                        </dd>
+                        <dd class="input_header">
+                            <input type="text" class="header_key" name="key" placeholder="key">：
+                            <input type="text" class="header_val" name="val" placeholder="val">
+                            <button type="button" class="btn btn-link glyphicon glyphicon-remove header_remove"></button>
+                        </dd>
+                        <dd class="input_header">
+                            <input type="text" class="header_key" name="key" placeholder="key">：
+                            <input type="text" class="header_val" name="val" placeholder="val">
+                            <button type="button" class="btn btn-link glyphicon glyphicon-remove header_remove"></button>
+                        </dd>
+
+                    </div>
+                    <dd class="add_header">
+                        <button type="button" class="btn btn-link header_add glyphicon glyphicon-plus">添加</button>
+                   </dd>
+                </div>
+
+                <div class="form-group">
+                    <label for="InputData">data：</label>
+                    <div class="data_set">
+                        <dd class="input_data">
+                            <input type="text" class="data_key" name="key" placeholder="key">：
+                            <input type="text" class="data_val" name="val" placeholder="val">
+                            <button type="button" class="btn btn-link glyphicon glyphicon-remove data_remove"></button>
+                        </dd>
+                        <dd class="input_data">
+                            <input type="text" class="data_key" name="key" placeholder="key">：
+                            <input type="text" class="data_val" name="val" placeholder="val">
+                            <button type="button" class="btn btn-link glyphicon glyphicon-remove data_remove"></button>
+                        </dd>
+                        <dd class="input_data">
+                            <input type="text" class="data_key" name="key" placeholder="key">：
+                            <input type="text" class="data_val" name="val" placeholder="val">
+                            <button type="button" class="btn btn-link glyphicon glyphicon-remove data_remove"></button>
+                        </dd>
+                    </div>
+                    <dd class="add_data">
+                        <button type="button" class="btn btn-link data_add glyphicon glyphicon-plus">添加</button>
+                   </dd>
+
+                </div>
+                <button type="button" class="btn btn-success access_api">调用接口</button>
+              </div>
+            
+
+        <div class="col-md-8">
+          <br />
+            <div class="form-group">
+            <label>返回结果:</label>
+            <textarea readonly="readonly" class="form-control request_input" rows="30" cols="170"></textarea>
+           </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+  $(".header_add").click(function(){
+
+      $(".header_set").append("<dd class='input_header'><input type='text' class='header_key' name='key' placeholder='key'>： <input type='text' class='header_val' name='val' placeholder='val'> <button type='button' class='btn btn-link glyphicon glyphicon-remove header_remove'></button></dd>")
+  });
+
+  $(".data_add").click(function(){
+
+      $(".data_set").append("<dd class='input_data'><input type='text' class='data_key' name='key' placeholder='key'>： <input type='text' class='data_val' name='val' placeholder='val'> <button type='button' class='btn btn-link glyphicon glyphicon-remove data_remove'></button></dd>")
+  });
+
+
+$(".header_set").on("click",".header_remove",function(){
+    $(this).parent("dd[class='input_header']").remove();
+});
+
+
+$(".data_set").on("click",".data_remove",function(){
+    $(this).parent("dd[class='input_data']").remove();
+});
+
+
+
+  $(".access_api").click(function(){
+    $(".request_input").val("")
+    url = $(".input_url").val();
+    method = $("input[name='request_method']:checked").val();
+    $("input[name='radio_name'][checked]").val();
+    headers = ""
+    data = ""
+    $('.input_header').each(function(){
+        var key = $(this).children("input[name='key']").val()
+        var value = $(this).children("input[name='val']").val()
+        if(headers!="" && key != "" && value != ""){
+            headers += ","
+        }
+        if(key != "" && value != ""){
+            headers += "'"+key+"'" +":"+ "'"+value+"'"
+            // headers +=key +":"+ value
+        }
+    })
+    $('.input_data').each(function(){
+        var key = $(this).children("input[name='key']").val()
+        var value = $(this).children("input[name='val']").val()
+        if(data!="" && key != "" && value != ""){
+            data += ","
+        }
+        if(key != "" && value != ""){
+            data += "'" + key + "'" +":"+ "'" + value + "'"
+            // data += key +":"+ value
+        }
+    })
+
+    $.ajax({
+      url:"/_get_api",
+      // contentType: "application/json; charset=utf-8",
+      type:"post",
+      data:{"url":url,"method":method,"headers":"{"+headers+"}","data":"{"+data+"}"},
+      dataType:"html",
+      success:function(data){
+        $(".request_input").val(data)
+
+      } // Success Function End.
+
+    }); // Ajax End
+  });
+
+
+
+});
+
+</script>
+</html>
